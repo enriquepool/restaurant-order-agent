@@ -1,0 +1,13 @@
+# Normaliza fines de línea a LF para que Windows y macOS generen el mismo historial
+* text=auto eol=lf
+
+# Scripts de Windows que requieren CRLF
+*.cmd text eol=crlf
+*.bat text eol=crlf
+
+# Binarios
+*.png binary
+*.jpg binary
+*.ico binary
+*.pfx binary
+*.snk binary

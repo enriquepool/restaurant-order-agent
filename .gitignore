@@ -1,0 +1,42 @@
+## .NET
+bin/
+obj/
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa]rm64/
+*.user
+*.suo
+*.userprefs
+*.rsuser
+TestResults/
+*.trx
+coverage*/
+*.nupkg
+artifacts/
+
+## IDEs
+.vs/
+.idea/
+*.sln.iml
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+## Sistema operativo
+.DS_Store
+Thumbs.db
+desktop.ini
+
+## Secretos y configuración local (nunca subir)
+.env
+.env.*
+!.env.example
+appsettings.*.local.json
+*.pfx
+
+## Docker / datos locales
+docker-data/
