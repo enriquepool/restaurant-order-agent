@@ -1,0 +1,51 @@
+# Entorno local. Funciona en Windows y macOS (Intel y Apple Silicon).
+#
+#   Solo base de datos (para correr la API con `dotnet run`):  docker compose up -d postgres
+#   Todo en contenedores:                                      docker compose up -d --build
+#
+# Ollama NO corre aquí: se instala nativo para usar la GPU (incluida Metal en Mac).
+
+services:
+  postgres:
+    image: postgres:17-alpine
+    container_name: orderagent-postgres
+    environment:
+      POSTGRES_DB: orderagent
+      POSTGRES_USER: orderagent
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-orderagent}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U orderagent -d orderagent"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  api:
+    build:
+      context: .
+      dockerfile: src/OrderAgent.Api/Dockerfile
+    container_name: orderagent-api
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "5080:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__OrderAgentDb: "Host=postgres;Port=5432;Database=orderagent;Username=orderagent;Password=${POSTGRES_PASSWORD:-orderagent}"
+      Database__ApplyMigrationsOnStartup: "true"
+      Llm__Endpoint: "http://host.docker.internal:11434"
+      Llm__Model: ${LLM_MODEL:-qwen3:8b}
+      WhatsApp__VerifyToken: ${WHATSAPP_VERIFY_TOKEN:-}
+      WhatsApp__AppSecret: ${WHATSAPP_APP_SECRET:-}
+      WhatsApp__AccessToken: ${WHATSAPP_ACCESS_TOKEN:-}
+      WhatsApp__PhoneNumberId: ${WHATSAPP_PHONE_NUMBER_ID:-}
+    extra_hosts:
+      # Necesario en Linux; en Windows y Mac Docker Desktop ya lo resuelve.
+      - "host.docker.internal:host-gateway"
+
+volumes:
+  postgres-data:

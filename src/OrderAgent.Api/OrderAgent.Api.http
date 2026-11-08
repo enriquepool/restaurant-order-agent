@@ -1,0 +1,51 @@
+# Pruebas manuales de la API.
+# Visual Studio y Rider lo ejecutan directo; en VS Code instala la extensión "REST Client".
+# Haz clic en "Send Request" sobre cada petición.
+
+@baseUrl = http://localhost:5080
+@customer = 5215500000001
+
+### Estado de la API
+GET {{baseUrl}}/health
+
+### ¿Hay conexión con Postgres?
+GET {{baseUrl}}/health/ready
+
+### Menú disponible
+GET {{baseUrl}}/api/v1/menu
+
+### 1) Saludo
+POST {{baseUrl}}/api/v1/chat
+Content-Type: application/json
+
+{ "customerId": "{{customer}}", "customerName": "Enrique", "message": "Hola, ¿qué tienen?" }
+
+### 2) Pedir
+POST {{baseUrl}}/api/v1/chat
+Content-Type: application/json
+
+{ "customerId": "{{customer}}", "message": "Quiero 2 órdenes de tacos al pastor, una sin cebolla, y una horchata" }
+
+### 3) Ver la orden
+POST {{baseUrl}}/api/v1/chat
+Content-Type: application/json
+
+{ "customerId": "{{customer}}", "message": "¿Cuánto llevo?" }
+
+### 4) Confirmar
+POST {{baseUrl}}/api/v1/chat
+Content-Type: application/json
+
+{ "customerId": "{{customer}}", "message": "Sí, confírmala" }
+
+### Órdenes confirmadas (vista de cocina)
+GET {{baseUrl}}/api/v1/orders?status=Confirmed
+
+### Reiniciar la conversación
+POST {{baseUrl}}/api/v1/chat
+Content-Type: application/json
+
+{ "customerId": "{{customer}}", "message": "reiniciar" }
+
+### Simular la verificación del webhook de Meta (usa tu VerifyToken)
+GET {{baseUrl}}/webhooks/whatsapp?hub.mode=subscribe&hub.verify_token=CAMBIA-ESTE-TOKEN&hub.challenge=12345
