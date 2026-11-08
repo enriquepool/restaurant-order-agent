@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/OrderAgent.Agent/OrderAgent.Agent.csproj" />
+    <Project Path="src/OrderAgent.Api/OrderAgent.Api.csproj" />
+    <Project Path="src/OrderAgent.Domain/OrderAgent.Domain.csproj" />
+    <Project Path="src/OrderAgent.Infrastructure/OrderAgent.Infrastructure.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/OrderAgent.Tests/OrderAgent.Tests.csproj" />
+  </Folder>
+</Solution>
