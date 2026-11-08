@@ -49,6 +49,11 @@ ollama pull qwen3:8b
 > Ollama corre **nativo** en el host (no en Docker) para aprovechar la GPU, incluida Metal en Mac.
 > Los contenedores lo alcanzan en `http://host.docker.internal:11434`.
 
+## Flujo de trabajo
+
+Todo cambio entra por Pull Request: `feature/* → develop → stage → master`.
+Detalles en [docs/BRANCHING.md](docs/BRANCHING.md).
+
 ## Estado
 
 🚧 En construcción.
